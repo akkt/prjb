@@ -40,31 +40,25 @@ class SisoU
     seikin1 = UcCommon.prepare_s9(l.byteslice(226,9))
     seizei = UcCommon.prepare_s9(l.byteslice(235,9))
     seitot1 = UcCommon.prepare_s9(l.byteslice(244,9))
-    # urikin = l.byteslice(199,9)
-    # zeikin = l.byteslice(208,9)
-    # uritot = l.byteslice(217,9)
-    # seikin1 = l.byteslice(226,9)
-    # seizei = l.byteslice(235,9)
-    # seitot1 = l.byteslice(244,9)
     
     seidate1 = l.byteslice(253,8)
     
-    seikin2 = l.byteslice(261,9)
-    seizei2 = l.byteslice(270,9)
-    seitot2 = l.byteslice(279,9)
+    seikin2 = UcCommon.prepare_s9(l.byteslice(261,9))
+    seizei2 = UcCommon.prepare_s9(l.byteslice(270,9))
+    seitot2 = UcCommon.prepare_s9(l.byteslice(279,9))
 
     seidate2 = l.byteslice(288,8)
 
-    cskin = l.byteslice(296,9)
-    csrisok = l.byteslice(305,9)
-    cstesu = l.byteslice(314,9)
-    cstot = l.byteslice(323,9)
+    cskin = UcCommon.prepare_s9(l.byteslice(296,9))
+    csrisok = UcCommon.prepare_s9(l.byteslice(305,9))
+    cstesu = UcCommon.prepare_s9(l.byteslice(314,9))
+    cstot = UcCommon.prepare_s9(l.byteslice(323,9))
 
     tuka = l.byteslice(332,3)
     tukanm = l.byteslice(335,3)
     
-    tukakin = l.byteslice(338,13)
-    maskin = l.byteslice(351,9)
+    tukakin = UcCommon.prepare_s9(l.byteslice(338,13), 14)
+    maskin = UcCommon.prepare_s9(l.byteslice(351,9))
 
     kansoba = l.byteslice(360,9)
     kanritu = l.byteslice(369,5)
@@ -74,7 +68,7 @@ class SisoU
     sohdate = l.byteslice(400,8)
     kensu = l.byteslice(408,9)
 
-    sohtot = l.byteslice(417,11)
+    sohtot = UcCommon.prepare_s9(l.byteslice(417,11), 12)
     
     yobi = l.byteslice(428,22)
 
