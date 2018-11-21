@@ -7,17 +7,14 @@ module UcCommon
 
   	hexdata = bdata.unpack('H*')[0]
   	delimiter = hexdata[-2]
-  	if delimiter == 'c'
-  		hexdata.gsub!(delimiter, 'f')
-  		bidata = [hexdata].pack('H*')
-  		utfdata = iconv.iconv(bidata)
-  		idata = utfdata.to_i
-  		sdata = idata.to_s.rjust(digit) # 空白文字埋めで右寄せ
-  		ibmdata = iconv2.iconv(sdata)
-  		ibmdata
-  	elsif delimiter == 'd'
-  		# マイナス
-  		bdata
-  	end
+  	sin = delimiter == 'd' ? -1 : 1
+
+	hexdata.gsub!(delimiter, 'f')
+	bidata = [hexdata].pack('H*')
+	utfdata = iconv.iconv(bidata)
+	idata = utfdata.to_i * sin
+	sdata = idata.to_s.rjust(digit) # 空白文字埋めで右寄せ
+	ibmdata = iconv2.iconv(sdata)
+	ibmdata
   end
 end
