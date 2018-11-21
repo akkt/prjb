@@ -1,32 +1,47 @@
 require 'iconv'
+require 'nkf'
 
-#$KCODE='UTF8'
+# 変換コード指定
+iconv=Iconv.new('UTF-8', 'IBM1390')
+data = []
+#File.open('C2.B9K.B9KVSK') do |file|
+File.open('TEST_SISO_U') do |file|
+	puts "START Conv."
 
-# EBCDICファイルオープン
-#fstr = File.read("C2B9KEUD27")
+    file.each_line do |l|
+    	begin
+          # 改行コードを抜く
+   	    str = iconv.iconv(l.chomp)
+    	    data << str
+#puts str.unpack('H*')
+#puts l.unpack('H*')
+    #        data = iconv.iconv(File.read('TEST_SISO_U'))
 
-['CP932', 'EBCDIC-JP-E'].each do |str_encode|
-  
-    # 変換コード指定
-	iconv=Iconv.new('UTF8', str_encode)
-
-	File.open('C2B9KEUD27') do |file|
-		puts "START Conv [#{str_encode}]."
-
-	    file.each_line do |l|
-	    	begin
-	    	    str = iconv.iconv(l)
-	    	    # 書き出し
-	    	    File.open("Test_#{str_encode}",'a') do |f|
-	    	    	f.puts str
-	    	    end
-	    	rescue Iconv::IllegalSequence => e
-	    		# 特定文字のエラー
-	    		puts "Iconv::IllegalSequence -> #{file.lineno}"
-	    		puts "  message -> [#{e.message}]"
-	    	rescue => e
-	    		puts e.backtrace.join("\n")
-	    	end
-	    end
-	end
+            #File.open('N', 'a') {|f| f.puts NKF.nkf('--ic=CP932 --oc=UTF-8', l)}
+    	rescue Iconv::IllegalSequence => e
+    		# 特定文字のエラー
+    		#puts "Iconv::IllegalSequence -> #{file.lineno}"
+    		puts "  message -> [#{e.message}]"
+    	rescue => e
+    		puts e.backtrace.join("\n")
+    	end
+    end
 end
+#
+#File.write('iconvUC', data)
+
+File.open('iconvUC', 'a') do |ff|
+  #s = data.force_encoding('Shift_JIS')
+  data.each do |l|
+#puts l.unpack('H*')
+ff.puts l
+  end
+  #ff.print "\r\n"
+end
+
+#iconv2 = Iconv.new('UTF-8', 'IBM943')
+#res = iconv2.iconv(data)
+#File.open("Test_s2",'a') do |f|
+#	f.puts res
+#end
+

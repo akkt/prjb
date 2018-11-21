@@ -71,16 +71,16 @@ class SisoU
     sohtot = UcCommon.prepare_s9(l.byteslice(417,11), 12)
     
     yobi = l.byteslice(428,22)
-
+    
     # SI/SO
-    simei = kjname.unpack('H76')[0]
-#    simei = kjname.unpack('a76')[0]
+#    simei = kjname.unpack('H76')[0]
+    simei = kjname.unpack('H*')[0]
     simei.insert(0,'0e')
     simei << '0f'
     simei_s = [simei].pack('H*')
 
-    kameiten = kameinm.unpack('H96')[0]
-#    kameiten = kameinm.unpack('a96')[0]
+#    kameiten = kameinm.unpack('H96')[0]
+    kameiten = kameinm.unpack('H*')[0]
     kameiten.insert(0,'0e')
     kameiten << '0f'
     kameiten_s = [kameiten].pack('H*')
@@ -95,8 +95,8 @@ class SisoU
     out << zeikin << uritot << seikin1 << seizei << seitot1 << seidate1 << seikin2 << seizei2 << seitot2 << seidate2
     out << cskin << csrisok << cstesu << cstot << tuka << tukanm << tukakin << maskin << kansoba << kanritu
     out << kamcd << kamadd << seidate << sohdate << kensu << sohtot << yobi 
-
-
+    #out << ["0a"].pack('H*')[0] #<< ["0a"].pack('H*')[0]
+#puts out.unpack('H*')
     File.open('TEST_SISO_U', 'a+b') do |f| 
       #f.puts [out].pack('H*')
       f.puts out
