@@ -18,3 +18,15 @@ module UcCommon
 	ibmdata
   end
 end
+
+module VisaLogic
+  def self.prepare_multiarea(data, size=60)
+  	iconv = Iconv.new('utf8', 'IBM1390')
+  	iconv2 = Iconv.new('IBM1390', 'utf8')
+
+  	utfdata = iconv.iconv(data)
+  	sdata = utfdata.ljust(60)
+  	ibmdata = iconv2.iconv(sdata)
+  	ibmdata
+  end
+end
