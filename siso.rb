@@ -153,12 +153,10 @@ module Siso
       if kbn_area == '0'
         # SISO
         # 加盟店名 漢字 20byte
-        kameiten_knj = malt.byteslice(0,20)
-        kameiten_knj = kameiten_knj.unpack('H*')[0]
-        kameiten_knj.insert(0,'0e')
-        kameiten_knj << '0f'
-        malt_s = [kameiten_knj].pack('H*')
-        malt_s = malt_s.ljust(60)
+        kameiten = malt.unpack('H*')[0]
+        kameiten.insert(0,'0e')
+        kameiten << '0f'
+        malt_s = [kameiten].pack('H*')
       elsif kbn_area == 'B'
         mkbn = malt.byteslice(0,1)
         # SISO

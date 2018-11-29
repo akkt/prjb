@@ -25,7 +25,7 @@ module VisaLogic
     iconv2 = Iconv.new('IBM1390', 'utf8')
 
     utfdata = iconv.iconv(data)
-    sdata = utfdata.ljust(60)
+    sdata = utfdata.ljust(size)
     ibmdata = iconv2.iconv(sdata)
     ibmdata
   end
