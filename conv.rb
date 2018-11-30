@@ -14,7 +14,7 @@ class Conv
         begin
           # 改行コードを抜く
           str = iconv.iconv(l.chomp)
-          data << str
+          data << str.gsub(/[\u2212]/, '−')
         rescue Iconv::IllegalSequence => e
           # 特定文字のエラー
           #puts "Iconv::IllegalSequence -> #{file.lineno}"
