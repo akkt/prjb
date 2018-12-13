@@ -17,6 +17,35 @@ module UcLogic
     ibmdata = iconv2.iconv(sdata)
     ibmdata
   end
+
+  # -----------9V99 などの場合に使用。
+  def self.prepare_s9_with_v9(bdata, digit=10, after_decimal_point_digit=2)
+    iconv = Iconv.new('utf8', 'IBM1390')
+    iconv2 = Iconv.new('IBM1390', 'utf8')
+
+    utfdata = iconv.iconv(bdata)
+    # 小数点前後に分割
+    sint = utfdata.slice(0, (utfdata.length - after_decimal_point_digit)) # 整数部分
+    saft = utfdata.slice((digit*-1), digit) # 小数点以下
+
+    # 整数部分を整形
+    idata_ibm = prepare_s9(bdata, digit - after_decimal_point_digit)
+    # 小数点以下部分
+    aft_ibm = iconv2.iconv(saft)
+
+    idata_ibm + aft_ibm
+  end
+
+  # 定義が9V99 などの場合に使用。小数点以下を返す
+  # def self.get_after_decimal_point(bdata, digit=2)
+  #   iconv = Iconv.new('utf8', 'IBM1390')
+  #   iconv2 = Iconv.new('IBM1390', 'utf8')
+
+  #   utfdata = iconv.iconv(bdata)
+  #   sdata = utfdata.slice((digit*-1), digit)
+  #   ibmdata = iconv2.iconv(sdata)
+  #   ibmdata
+  # end
 end
 
 module VisaLogic

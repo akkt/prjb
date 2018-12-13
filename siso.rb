@@ -58,9 +58,12 @@ module Siso
       tuka = l.byteslice(332,3)
       tukanm = l.byteslice(335,3)
 
-      tukakin = UcLogic.prepare_s9(l.byteslice(338,13), 14)
-      maskin = UcLogic.prepare_s9(l.byteslice(351,9))
+      # -----------9V99
+      tukakin = UcLogic.prepare_s9_with_v9(l.byteslice(338,13), 14, 2)
+      # -------9V99
+      maskin = UcLogic.prepare_s9_with_v9(l.byteslice(351,9), 10, 2)
 
+      # 9999999V99
       kansoba = l.byteslice(360,9)
       kanritu = l.byteslice(369,5)
       kamcd = l.byteslice(374,3)
