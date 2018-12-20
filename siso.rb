@@ -77,17 +77,18 @@ module Siso
       yobi = l.byteslice(428,22)
 
       # SI/SO
-      simei = kjname.unpack('H*')[0]
+      kjn = kjname.byteslice(0, 38)
+      kjyobi = kjname.byteslice(38, 2)
+      simei = kjn.unpack('H*')[0]
       simei.insert(0,'0e')
       simei << '0f'
-      simei_s = [simei].pack('H*')
+      simei_s = [simei].pack('H*') + kjyobi
 
       kameiten = kameinm.unpack('H*')[0]
       kameiten.insert(0,'0e')
       kameiten << '0f'
       kameiten_s = [kameiten].pack('H*')
 
-      # TODO あとでちゃんと
       out << jyucd << kaicd << hojin << cardno << perno << meikbn << renno << ukedate << uc1 << seikbn
       out << riyokbn << uc2 << henko << uricard 
       out << simei_s
@@ -155,11 +156,13 @@ module Siso
       kbn_area = iconv.iconv(kbn)
       if kbn_area == '0'
         # SISO
-        # 加盟店名 漢字 20byte
-        kameiten = malt.unpack('H*')[0]
+        # 加盟店名 漢字
+        mknj = malt.byteslice(0,58)
+        myohaku = malt.byteslice(58, 2)
+        kameiten = mknj.unpack('H*')[0]
         kameiten.insert(0,'0e')
         kameiten << '0f'
-        malt_s = [kameiten].pack('H*')
+        malt_s = [kameiten].pack('H*') + myohaku
       elsif kbn_area == 'B'
         mkbn = malt.byteslice(0,1)
         # SISO
@@ -168,10 +171,10 @@ module Siso
         kokuken_knj.insert(0, '0e')
         kokuken_knj << '0f'
         malt_s = mkbn + [kokuken_knj].pack('H*')
-        malt_s = malt_s.ljust(60)
       else
         # シフトコード付与なし
-        malt_s = malt
+        mms = malt.byteslice(0,60)
+        malt_s = mms
       end
 
       out = kubun
